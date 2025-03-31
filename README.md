@@ -2,20 +2,20 @@
 
 *This project explores different machine learning models to predict age-specific death rates using publicly available IHME mortality data. It includes preprocessing, training baseline and ensemble models, and visualizing performance.*
 
-## Objective: To evaluate and compare the performance of base regression models and ensemble methods on real-world mortality data using metrics such as MAE, RMSE, R² Score, and training time.**
+*Objective: To evaluate and compare the performance of base regression models and ensemble methods on real-world mortality data using metrics such as MAE, RMSE, R² Score, and training time.*
 
 ---------------------------------------------------------------
 
 ## How to Run:
 
 *Ensure Python 3 and required packages are installed:*
-
+```python
 pip install pandas numpy matplotlib seaborn scikit-learn
-
+```
 *Then, run the full pipeline:*
-
+```python
 python3 run_all.py
-
+```
 ---------------------------------------------------------------
 
 ## Data:

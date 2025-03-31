@@ -1,4 +1,4 @@
-# CS323 Machine Learning Project
+# Mortality Analysis Models
 
 *This project explores different machine learning models to predict age-specific death rates using publicly available IHME mortality data. It includes preprocessing, training baseline and ensemble models, and visualizing performance.*
 

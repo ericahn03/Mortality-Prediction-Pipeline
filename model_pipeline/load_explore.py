@@ -31,12 +31,20 @@ plt.title("Feature Correlation Heatmap")
 plt.tight_layout()
 plt.show()
 
-# Scatter plot: Age vs Death Rate
+# Scatter plot: Age vs Death Rate (only show ticks for actual age values)
 plt.figure(figsize=(8, 5))
 sns.scatterplot(x='Age (midpoint)', y='Death Rate Per 100,000', data=df, alpha=0.5)
 plt.title("Age vs Death Rate")
 plt.xlabel("Age (midpoint)")
 plt.ylabel("Death Rate per 100k")
+
+# Set ticks every 5 years for cleaner readability
+min_age = int(df['Age (midpoint)'].min())
+max_age = int(df['Age (midpoint)'].max())
+tick_interval = 5
+
+plt.xticks(np.arange(min_age, max_age + 1, tick_interval))
+
 plt.grid(True, linestyle='--', alpha=0.4)
 plt.tight_layout()
 plt.show()
@@ -47,6 +55,10 @@ sns.scatterplot(x='Year', y='Death Rate Per 100,000', data=df, alpha=0.5)
 plt.title("Year vs Death Rate")
 plt.xlabel("Year")
 plt.ylabel("Death Rate per 100k")
+
+# Force x-axis to match actual decade values
+plt.xticks(sorted(df["Year"].unique()))
+
 plt.grid(True, linestyle='--', alpha=0.4)
 plt.tight_layout()
 plt.show()

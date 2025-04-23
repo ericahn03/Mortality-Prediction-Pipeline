@@ -1,27 +1,34 @@
 import pandas as pd
+import numpy as np
+import time
+import csv
+
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.svm import SVR
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
-import numpy as np
-import csv
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 # Load preprocessed data
 df = pd.read_csv("data/preprocessed_data.csv")
 
-# Define features and target
-X = df.drop(columns=["Death Rate Per 100,000"])
+df.dropna(inplace=True)
+
+# Select useful features explicitly
+feature_cols = ['Country Name', 'Sex', 'Year', 'Age (midpoint)', 'Log Deaths']
+X = df[feature_cols]
 y = df["Death Rate Per 100,000"]
 
 # Split into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
-# Define models
+# Define models with consistent pipelines
 models = {
-    "Linear Regression": LinearRegression(),
+    "Linear Regression": make_pipeline(StandardScaler(), LinearRegression()),
     "Decision Tree": DecisionTreeRegressor(random_state=42),
     "Support Vector Regression": make_pipeline(StandardScaler(), SVR())
 }
@@ -33,7 +40,6 @@ with open("data/model_results.csv", "w", newline="") as f:
 
 # Train and evaluate each model
 for name, model in models.items():
-    import time
     start_time = time.time()
 
     model.fit(X_train, y_train)

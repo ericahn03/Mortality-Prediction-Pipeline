@@ -1,53 +1,34 @@
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# Load model performance data
+# Load results
 results_df = pd.read_csv("data/model_results.csv")
 
-# Convert Run Time column to numeric if it contains strings
-if "Run Time (s)" in results_df.columns:
-    results_df["Run Time (s)"] = pd.to_numeric(results_df["Run Time (s)"], errors='coerce')
+# Ensure run time is numeric
+results_df["Run Time (s)"] = pd.to_numeric(results_df["Run Time (s)"], errors='coerce')
 
-# Plot R^2 Scores
-plt.figure(figsize=(10, 6))
-plt.bar(results_df["Model"], results_df["R2"], color="skyblue")
-plt.title("Model Comparison: R^2 Scores")
-plt.ylabel("R^2 Score")
-plt.xticks(rotation=45, ha="right")
-plt.tight_layout()
-plt.show()
+# Sort by R² descending by default
+results_df = results_df.sort_values(by="R2", ascending=False)
 
-# Plot MAE
-plt.figure(figsize=(10, 6))
-plt.bar(results_df["Model"], results_df["MAE"], color="lightgreen")
-plt.title("Model Comparison: Mean Absolute Error (MAE)")
-plt.ylabel("MAE")
-plt.xticks(rotation=45, ha="right")
-plt.tight_layout()
-plt.show()
-
-# Plot RMSE
-plt.figure(figsize=(10, 6))
-plt.bar(results_df["Model"], results_df["RMSE"], color="salmon")
-plt.title("Model Comparison: Root Mean Squared Error (RMSE)")
-plt.ylabel("RMSE")
-plt.xticks(rotation=45, ha="right")
-plt.tight_layout()
-plt.show()
-
-# Optional: Plot run time if available
-if "Run Time (s)" in results_df.columns and results_df["Run Time (s)"].notnull().all():
+# Define a generic plotting function
+def plot_metric(df, metric, color, ylabel, title):
     plt.figure(figsize=(10, 6))
-    bars = plt.bar(results_df["Model"], results_df["Run Time (s)"], color="gray")
-    plt.title("Model Comparison: Run Time")
-    plt.ylabel("Seconds")
+    bars = plt.bar(df["Model"], df[metric], color=color)
+    plt.title(title, fontsize=14)
+    plt.ylabel(ylabel)
     plt.xticks(rotation=45, ha="right")
 
-    # Add labels on top of each bar
+    # Add value labels
     for bar in bars:
         height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, height + 1,
+        plt.text(bar.get_x() + bar.get_width() / 2, height + 0.02 * height,
                  f"{height:.2f}", ha="center", va="bottom", fontsize=9)
 
     plt.tight_layout()
     plt.show()
+
+# Plot R², MAE, RMSE, Runtime
+plot_metric(results_df, "R2", "skyblue", "R² Score", "Model Comparison: R² Scores")
+plot_metric(results_df, "MAE", "lightgreen", "Mean Absolute Error", "Model Comparison: MAE")
+plot_metric(results_df, "RMSE", "salmon", "Root Mean Squared Error", "Model Comparison: RMSE")
+plot_metric(results_df, "Run Time (s)", "gray", "Run Time (seconds)", "Model Comparison: Training Time")

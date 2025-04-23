@@ -1,60 +1,80 @@
-# Mortality Analysis Models
+# Mortality Rate Prediction with Machine Learning
 
-*This project explores different machine learning models to predict age-specific death rates using publicly available IHME mortality data. It includes preprocessing, training baseline and ensemble models, and visualizing performance.*
-
-**Objective:**  
-To evaluate and compare the performance of base regression models and ensemble methods on real-world mortality data using metrics such as MAE, RMSE, R² Score, and training time.
+This project applies various machine learning models to predict **age-specific mortality rates** using real-world global health data from the **Institute for Health Metrics and Evaluation (IHME)**. The models include both baseline and ensemble methods, evaluated using appropriate metrics and cross-validation techniques.
 
 ---
 
-## How to Run the Pipeline
+## Objective
 
-*Ensure Python 3.8+ and the following packages are installed:*
-```bash
-pip install pandas numpy matplotlib seaborn scikit-learn
-```
-
-*Use this command to run all steps in sequence:*
-```bash
-python3 run_all.py
-```
-This will:
-1. Preprocess the raw IHME dataset
-2. Run exploratory data analysis (EDA)
-3. Train baseline models (Linear Regression, Decision Tree, SVR)
-4. Train ensemble models (Random Forest, Bagging, Stacking)
-5. Generate performance visualizations
+To compare and evaluate the performance of **baseline regressors** and **ensemble learning models** for predicting mortality rates per 100,000 people, based on age, country, sex, and year.
 
 ---
 
-## Data Files
+## Dataset
 
-| File Name                 | Description                                                              |
-|---------------------------|---------------------------------------------------------------------------|
-| `IHME_GBD_countrydata.csv` | Raw dataset from the Institute for Health Metrics and Evaluation (IHME)  |
-| `preprocessed_data.csv`    | Cleaned and enriched dataset including year, age midpoints, log-deaths   |
-| `model_results.csv`        | Model evaluation output with metrics (MAE, RMSE, R², runtime)            |
+| File Name               | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| `IHME_GBD_countrydata.csv` | Raw dataset from IHME including demographic and death statistics           |
+| `preprocessed_data.csv`    | Cleaned version with numeric conversions, encoded features, and log columns |
+| `model_results.csv`        | Model performance results (MAE, RMSE, R², Runtime, Eval method) - Baseline |
+| `ensemble_results.csv`     | Performance metrics for ensemble models                                   |
 
 ---
 
 ## Python Scripts
 
-| Script Name             | Functionality                                                                |
-|-------------------------|-------------------------------------------------------------------------------|
-| `preprocess_data.py`    | Cleans the raw data, encodes categorical values, transforms age & deaths     |
-| `load_explore.py`       | Performs data visualization and correlation heatmaps                         |
-| `train_models.py`       | Trains Linear Regression, Decision Tree, and SVR models                      |
-| `ensemble_models.py`    | Trains Random Forest, Bagging, and Stacking models with Ridge meta-model     |
-| `visualize_results.py`  | Creates comparative bar plots for all model metrics                          |
-| `run_all.py`            | Executes the full pipeline end-to-end in correct order                       |
+| Script Name             | Functionality                                                                 |
+|------------------------|--------------------------------------------------------------------------------|
+| `preprocess_data.py`   | Cleans the raw data, maps age groups to numeric midpoints, encodes categoricals |
+| `load_explore.py`      | Generates distributions, heatmaps, and scatterplots of feature relationships  |
+| `train_models.py`      | Trains and evaluates:                                                          |
+|                        | • Linear Regression (10-Fold CV)                                               |
+|                        | • Decision Tree (10-Fold CV)                                                   |
+|                        | • Support Vector Regression (80/20 Split, Polynomial Kernel)                   |
+| `ensemble_models.py`   | Trains and evaluates ensemble models using 10-Fold CV:                         |
+|                        | • Random Forest                                                                |
+|                        | • Bagging (Decision Trees)                                                     |
+|                        | • Stacking (Tree + Linear → Ridge)                                             |
+| `visualize_results.py` | Generates bar charts comparing performance and feature importance              |
+| `run_all.py`           | Automates the entire pipeline from preprocessing to visualization              |
 
 ---
 
-## Notes:
+## 🧪 Evaluation Metrics
 
-- All scripts assume you're in the root directory of the project.
-- Run preprocess_data.py before any model training to ensure required columns exist.
-- The "Age Group" column is transformed into a numeric "Age (midpoint)" for modeling.
-- Any NaNs introduced via mapping or cleaning are dropped to avoid breaking models like SVR.
-- Random Forest and Bagging consistently yielded the most robust results.
-- SVR is slow and less scalable — use with care or tune hyperparameters for efficiency.
+- **MAE**: Mean Absolute Error  
+- **RMSE**: Root Mean Squared Error  
+- **R² Score**: Coefficient of Determination  
+- **Runtime**: Total training time in seconds  
+- **Evaluation**: `10-Fold CV` or `80/20 Split` as specified per model  
+
+---
+
+## Model Highlights
+
+- SVR uses an **80/20 Split** to match Weka’s behavior and reduce training time.
+- All other models use **10-Fold Cross-Validation** for better reliability.
+- Ensemble methods tend to outperform baseline models on most metrics.
+- Random Forest feature importance is used to explain predictive drivers.
+
+---
+
+## Requirements
+
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn
+```
+
+---
+
+# To Run:
+
+```bash
+python3 run_all.py
+```
+This executes:
+- Data preprocessing
+- Data exploration
+- Model training
+- Ensemble training
+- Results visualization

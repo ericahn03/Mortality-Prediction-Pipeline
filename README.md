@@ -27,33 +27,26 @@ This will:
 
 ---
 
-## Data Files: 
+## Data Files
 
-File Name | Description
-IHME_GBD_countrydata.csv | Raw dataset from the Institute for Health Metrics and Evaluation (IHME)
-preprocessed_data.csv | Cleaned and enriched dataset including year, age midpoints, log-deaths
-model_results.csv | Model evaluation output with metrics (MAE, RMSE, R², runtime)
-
----
-
-## Python Scripts:
-
-Script Name | Functionality
-preprocess_data.py | Cleans the raw data, encodes categorical values, transforms age & deaths
-load_explore.py | Performs data visualization and correlation heatmaps
-train_models.py | Trains Linear Regression, Decision Tree, and SVR models
-ensemble_models.py | Trains Random Forest, Bagging, and Stacking models with Ridge meta-model
-visualize_results.py | Creates comparative bar plots for all model metrics
-run_all.py | Executes the full pipeline end-to-end in correct order
+| File Name                 | Description                                                              |
+|---------------------------|---------------------------------------------------------------------------|
+| `IHME_GBD_countrydata.csv` | Raw dataset from the Institute for Health Metrics and Evaluation (IHME)  |
+| `preprocessed_data.csv`    | Cleaned and enriched dataset including year, age midpoints, log-deaths   |
+| `model_results.csv`        | Model evaluation output with metrics (MAE, RMSE, R², runtime)            |
 
 ---
 
-## Evaluation Metrics:
+## Python Scripts
 
-- MAE — Mean Absolute Error
-- RMSE — Root Mean Squared Error
-- R² Score — Variance explained by the model
-- Run Time (s) — Time taken to train each model
+| Script Name             | Functionality                                                                |
+|-------------------------|-------------------------------------------------------------------------------|
+| `preprocess_data.py`    | Cleans the raw data, encodes categorical values, transforms age & deaths     |
+| `load_explore.py`       | Performs data visualization and correlation heatmaps                         |
+| `train_models.py`       | Trains Linear Regression, Decision Tree, and SVR models                      |
+| `ensemble_models.py`    | Trains Random Forest, Bagging, and Stacking models with Ridge meta-model     |
+| `visualize_results.py`  | Creates comparative bar plots for all model metrics                          |
+| `run_all.py`            | Executes the full pipeline end-to-end in correct order                       |
 
 ---
 

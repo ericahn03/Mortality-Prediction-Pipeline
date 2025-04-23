@@ -40,7 +40,7 @@ To compare and evaluate the performance of **baseline regressors** and **ensembl
 
 ---
 
-## 🧪 Evaluation Metrics
+## Evaluation Metrics
 
 - **MAE**: Mean Absolute Error  
 - **RMSE**: Root Mean Squared Error  
